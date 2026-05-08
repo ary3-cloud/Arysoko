@@ -4,6 +4,21 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Caro from "./Caro";
 
+// ---------------- CATEGORY ENGINE ----------------
+const CATEGORY_RULES = {
+  fashion: /\b(shoe|dress|shirt|clothing|wear)\b/i,
+  jewelry: /\b(ring|necklace|earring|gold|silver)\b/i,
+  handmade: /\b(handmade|craft|art|wood)\b/i,
+};
+
+const getCategory = (p) => {
+  const text = `${p?.product_name || ""} ${p?.product_description || ""}`.toLowerCase();
+  for (const key in CATEGORY_RULES) {
+    if (CATEGORY_RULES[key].test(text)) return key;
+  }
+  return "other";
+};
+
 const GetProducts = ({ addToCart }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -18,11 +33,10 @@ const GetProducts = ({ addToCart }) => {
   const [wishlist, setWishlist] = useState([]);
 
   const navigate = useNavigate();
-
-  const img_url = "http://mary.alwaysdata.net/static/images/";
+  const img_url = "https://mary.alwaysdata.net/static/images/";
   const itemsPerPage = 8;
 
-  // ---------------- FETCH ----------------
+  // ---------------- FETCH PRODUCTS ----------------
   useEffect(() => {
     const controller = new AbortController();
 
@@ -30,7 +44,7 @@ const GetProducts = ({ addToCart }) => {
       try {
         setLoading(true);
         const res = await axios.get(
-          "http://mary.alwaysdata.net/api/getproductdetails",
+          "https://mary.alwaysdata.net/api/getproductdetails",
           { signal: controller.signal }
         );
         setProducts(Array.isArray(res.data) ? res.data : []);
@@ -49,10 +63,7 @@ const GetProducts = ({ addToCart }) => {
 
   // ---------------- SEARCH DEBOUNCE ----------------
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setDebouncedSearch(search);
-    }, 300);
-
+    const timer = setTimeout(() => setDebouncedSearch(search), 300);
     return () => clearTimeout(timer);
   }, [search]);
 
@@ -68,7 +79,6 @@ const GetProducts = ({ addToCart }) => {
 
   const toggleWishlist = (product) => {
     const exists = wishlist.some((item) => item.id === product.id);
-
     if (exists) {
       setWishlist(wishlist.filter((item) => item.id !== product.id));
     } else {
@@ -86,24 +96,7 @@ const GetProducts = ({ addToCart }) => {
 
   const isInWishlist = (id) => wishlist.some((item) => item.id === id);
 
-  // ---------------- CATEGORY ENGINE ----------------
-  const CATEGORY_RULES = {
-    fashion: /\b(shoe|dress|shirt|clothing|wear)\b/i,
-    jewelry: /\b(ring|necklace|earring|gold|silver)\b/i,
-    handmade: /\b(handmade|craft|art|wood)\b/i,
-  };
-
-  const getCategory = (p) => {
-    const text = `${p?.product_name || ""} ${p?.product_description || ""}`.toLowerCase();
-
-    for (const key in CATEGORY_RULES) {
-      if (CATEGORY_RULES[key].test(text)) return key;
-    }
-
-    return "other";
-  };
-
-  // ---------------- FILTER ----------------
+  // ---------------- FILTER PRODUCTS ----------------
   const filteredProducts = useMemo(() => {
     return products.filter((p) => {
       const name = (p?.product_name || "").toLowerCase();
@@ -117,14 +110,8 @@ const GetProducts = ({ addToCart }) => {
   }, [products, debouncedSearch, category, maxPrice]);
 
   // ---------------- PAGINATION ----------------
-  const totalPages = Math.max(
-    1,
-    Math.ceil(filteredProducts.length / itemsPerPage)
-  );
-
-  useEffect(() => {
-    setPage((p) => Math.min(p, totalPages));
-  }, [totalPages]);
+  const totalPages = Math.max(1, Math.ceil(filteredProducts.length / itemsPerPage));
+  useEffect(() => setPage((p) => Math.min(p, totalPages)), [totalPages]);
 
   const visibleProducts = filteredProducts.slice(
     (page - 1) * itemsPerPage,
@@ -195,7 +182,6 @@ const GetProducts = ({ addToCart }) => {
               className="product_img"
               onError={(e) => (e.target.src = "/fallback.png")}
             />
-
             <div className="card-body">
               <h5 className="text-success">{product.product_name}</h5>
               <p className="text-primary">{product.product_description}</p>

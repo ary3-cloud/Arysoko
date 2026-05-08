@@ -29,11 +29,11 @@ const Footer = () => {
 
       <div className='col-md-4 text-center'>
         <h2>Stay Connected</h2>
-        <a href="https://www.facebook.com" target="_blank"> <img src="images/fb.png" alt="" /></a>
+        <a href="https://www.facebook.com" target="_blank" rel='noreferrer'> <img src="images/fb.png" alt="" /></a>
 
-        <a href="https://www.instagram.com" target="_blank"><img src="images/in.png" alt="" /></a>
+        <a href="https://www.instagram.com" target="_blank" rel='noreferrer'><img src="images/in.png" alt="" /></a>
 
-        <a href="https://www.x.com" target="_blank"><img src="images/x.png" alt="" /></a>
+        <a href="https://www.x.com" target="_blank" rel='noreferrer'><img src="images/x.png" alt="" /></a>
         <br />
         <p>To stay connected and updated one can follow us on our social media platforms.Don't miss ur chance of getting updated with our newest and greatest hits.</p>
 
