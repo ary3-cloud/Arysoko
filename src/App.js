@@ -1,12 +1,12 @@
 import React, { useState } from "react"
 import "./App.css"
 import "bootstrap/dist/css/bootstrap.min.css"
+import "bootstrap/dist/js/bootstrap.bundle.min.js"
 
 import {
   BrowserRouter as Router,
   Routes,
   Route,
-  Link,
   useLocation
 } from "react-router-dom"
 
@@ -21,7 +21,7 @@ import AddCart from "./components/AddCart"
 import WishList from "./components/WishList"
 import UserProfile from "./components/UserProfile"
 import Chatbot from "./components/ChatBot"
-import DarkMode from "./components/DarkMode"
+import Navbar from "./components/Navbar"
 
 const Layout = ({ cart, setCart, addToCart }) => {
   const location = useLocation()
@@ -48,25 +48,7 @@ const Layout = ({ cart, setCart, addToCart }) => {
       </header>
 
       {/* NAVBAR */}
-      <nav className="navbar navbar-expand-md sticky-top">
-        <div className="navbar-nav">
-
-          <Link className="nav-link" to="/" id='home'>Arynest</Link>
-          <Link className="nav-link" to="/signup">Signup</Link>
-          <Link className="nav-link" to="/signin">Signin</Link>
-          <Link className="nav-link" to="/aboutus">About Us</Link>
-          <Link className="nav-link" to="/wishlist">Wishlist</Link>
-          <Link className="nav-link" to="/userprofile">User Profile</Link>
-          <Link className="nav-link" to="/chatbot">Chat</Link>
-
-          <Link className="nav-link" to="/cart">
-            🛒 Cart ({cart.length})
-          </Link>
-
-          <DarkMode />
-
-        </div>
-      </nav>
+      <Navbar />
 
       {/* ROUTES */}
       <Routes>

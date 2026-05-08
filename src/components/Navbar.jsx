@@ -4,6 +4,7 @@ import { Link } from "react-router-dom"
 
 const Navbar = () => {
   const [cart, setCart] = useState([])
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   // Load cart from localStorage
   useEffect(() => {
@@ -11,30 +12,49 @@ const Navbar = () => {
     if (stored) setCart(JSON.parse(stored))
   }, [])
 
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen)
+  }
+
   return (
-    <nav className="navbar navbar-expand-md sticky-top">
-      <div className="navbar-nav w-100 d-flex justify-content-between align-items-center px-2">
+    <nav className="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+      <div className="container-fluid">
+        {/* Brand */}
+        <Link className="navbar-brand" to="/"><b>Arynest</b></Link>
 
-        {/* LEFT LINKS */}
-        <div className="d-flex flex-wrap">
-          <Link className="nav-link" to="/"><b>Arynest</b></Link>
-          <Link className="nav-link" to="/signup">Signup</Link>
-          <Link className="nav-link" to="/signin">Signin</Link>
-          <Link className="nav-link" to="/aboutus">About Us</Link>
-          <Link className="nav-link" to="/wishlist">Wishlist</Link>
-          <Link className="nav-link" to="/profile">UserProfile</Link>
-          <Link className="nav-link" to="/chatbot">Chat</Link>
+        {/* Hamburger Menu Button */}
+        <button 
+          className="navbar-toggler" 
+          type="button" 
+          onClick={toggleMenu}
+          aria-controls="navbarNav" 
+          aria-expanded={isMenuOpen} 
+          aria-label="Toggle navigation"
+        >
+          <span className="navbar-toggler-icon"></span>
+        </button>
 
-          <Link className="nav-link" to="/cart">
-            🛒 Cart ({cart.length})
-          </Link>
+        {/* Collapsible Navigation */}
+        <div className={`collapse navbar-collapse ${isMenuOpen ? 'show' : ''}`} id="navbarNav">
+          <div className="navbar-nav me-auto">
+            <Link className="nav-link" to="/signup" onClick={() => setIsMenuOpen(false)}>Signup</Link>
+            <Link className="nav-link" to="/signin" onClick={() => setIsMenuOpen(false)}>Signin</Link>
+            <Link className="nav-link" to="/aboutus" onClick={() => setIsMenuOpen(false)}>About Us</Link>
+            <Link className="nav-link" to="/wishlist" onClick={() => setIsMenuOpen(false)}>Wishlist</Link>
+            <Link className="nav-link" to="/profile" onClick={() => setIsMenuOpen(false)}>UserProfile</Link>
+            <Link className="nav-link" to="/chatbot" onClick={() => setIsMenuOpen(false)}>Chat</Link>
+            <Link className="nav-link" to="/cart" onClick={() => setIsMenuOpen(false)}>
+              🛒 Cart ({cart.length})
+            </Link>
+          </div>
+
+          {/* Right Side */}
+          <div className="navbar-nav">
+            <div className="nav-item">
+              <DarkMode />
+            </div>
+          </div>
         </div>
-
-        {/* RIGHT SIDE */}
-        <div className="d-flex align-items-center">
-          <DarkMode />
-        </div>
-
       </div>
     </nav>
   )
