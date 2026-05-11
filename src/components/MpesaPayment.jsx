@@ -25,7 +25,7 @@ const MpesaPayment = ({ totalAmount = 0, cartItems = [] }) => {
       data.append('items', JSON.stringify(cartItems));
 
       const response = await axios.post(
-        'http://mary.alwaysdata.net/api/mpesa_payment',
+        'https://mary.alwaysdata.net/api/mpesa_payment',
         data
       );
 
