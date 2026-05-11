@@ -28,7 +28,7 @@ const SignIn = () => {
       data.append("password", password)
 
       const response = await axios.post(
-        "http://mary.alwaysdata.net/api/signin",
+        "https://mary.alwaysdata.net/api/signin",
         data
       )
 
