@@ -23,7 +23,7 @@ import UserProfile from "./components/UserProfile"
 import Chatbot from "./components/ChatBot"
 import Navbar from "./components/Navbar"
 
-const Layout = ({ cart, setCart, addToCart }) => {
+const Layout = ({ cart, setCart, addToCart, showChatbot, setShowChatbot }) => {
   const location = useLocation()
 
   // Pages where footer should NOT appear
@@ -64,6 +64,22 @@ const Layout = ({ cart, setCart, addToCart }) => {
         <Route path="/cart" element={<AddCart cart={cart} setCart={setCart} />} />
       </Routes>
 
+      {/* FLOATING CHATBOT ICON */}
+      <div className="chatbot-floating-icon" onClick={() => setShowChatbot(!showChatbot)}>
+        <span>💬</span>
+      </div>
+
+      {/* CHATBOT MODAL/SIDEBAR */}
+      {showChatbot && (
+        <div className="chatbot-container">
+          <div className="chatbot-header">
+            <h3>Chat with us!</h3>
+            <button className="close-btn" onClick={() => setShowChatbot(false)}>✕</button>
+          </div>
+          <Chatbot />
+        </div>
+      )}
+
       {/* FOOTER */}
       {!hideFooter && <Footer />}
 
@@ -73,6 +89,7 @@ const Layout = ({ cart, setCart, addToCart }) => {
 
 function App() {
   const [cart, setCart] = useState([])
+  const [showChatbot, setShowChatbot] = useState(false)
 
   const addToCart = (product) => {
     setCart([...cart, product])
@@ -84,6 +101,8 @@ function App() {
         cart={cart}
         setCart={setCart}
         addToCart={addToCart}
+        showChatbot={showChatbot}
+        setShowChatbot={setShowChatbot}
       />
     </Router>
   )
