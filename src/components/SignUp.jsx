@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import PasswordStrength from './Passwordstrength'
 
@@ -12,13 +12,12 @@ const SignUp = () => {
 
  const [showPassword, setShowPassword] = useState(false)
 
-
-
-
  //other hooks
  const[loading,setLoading]=useState("")
   const[success,setSuccess]=useState("")
   const[error,setError]=useState("")
+
+  const navigate = useNavigate()
 
   //function to send out data to the server
   const submit=async(e)=>{
@@ -48,6 +47,10 @@ const SignUp = () => {
       setPhone("")
       setPassword("")
 
+      //Redirect to user profile after 1.5 seconds
+      setTimeout(() => {
+        navigate("/userprofile")
+      }, 1500)
 
     } catch (error) {
 
@@ -55,14 +58,7 @@ const SignUp = () => {
       setError(error.message)
  
     }
-
-
-      
-
-
   }
-
- 
 
   return (
  <div className='row justify-content-center mt-3'>
@@ -129,13 +125,7 @@ const SignUp = () => {
        
        <p>Already have an account? <Link to="/signin">Sign in</Link></p>
 
-   
-
-
     </form>
-
-
-
 
     </div>
 
