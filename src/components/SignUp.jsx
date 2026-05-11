@@ -36,7 +36,7 @@ const SignUp = () => {
       data.append("password",password)
       
       //calling the API
-      const response= await axios.post("http://mary.alwaysdata.net/api/signup",data)
+      const response= await axios.post("https://mary.alwaysdata.net/api/signup",data)
 
       setLoading("")
 
